@@ -24,7 +24,6 @@ public class Pessoa {
     @Column(name = "nome")
     private String nome;
 
-
     @JoinColumn(name = "documento_principal_id")
     @OneToOne
     private Documento documentoPrincipal;

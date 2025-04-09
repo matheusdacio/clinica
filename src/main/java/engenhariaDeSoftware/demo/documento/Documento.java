@@ -1,4 +1,4 @@
-package engenhariaDeSoftware.demo.pessoa.documento;
+package engenhariaDeSoftware.demo.documento;
 
 public class Documento {
 

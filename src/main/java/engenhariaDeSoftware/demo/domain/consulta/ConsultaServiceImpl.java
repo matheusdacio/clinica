@@ -1,20 +1,15 @@
 package engenhariaDeSoftware.demo.domain.consulta;
 
-import engenhariaDeSoftware.demo.domain.paciente.Paciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import support.core.service.AbstractService;
 
 @Service
-public class ConsultaServiceImpl implements ConsultaRepository {
+public class ConsultaServiceImpl extends AbstractService<Consulta, Long, ConsultaRepository> implements ConsultaService {
 
     @Autowired
-    public ConsultaServiceImpl(ConsultaRepository repo, Paciente paciente) {
-        super();
+    public ConsultaServiceImpl(ConsultaRepository repo) {
+        super(repo);
     }
 
-    @Override
-    public Paciente salvar(Paciente entity) {
-        entity = repo.salvar(entity);
-        return entity;
-    }
 }

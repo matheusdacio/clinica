@@ -4,6 +4,7 @@ import engenhariaDeSoftware.demo.domain.Documento;
 import engenhariaDeSoftware.demo.domain.endereco.Endereco;
 import jakarta.persistence.Table;
 import lombok.*;
+import support.core.entity.EntityAudit;
 
 import javax.persistence.*;
 
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Paciente {
+public class Paciente extends EntityAudit {
 
     @Id
     @GeneratedValue(generator = "conta", strategy = GenerationType.TABLE)
@@ -32,4 +33,13 @@ public class Paciente {
     @OneToOne
     private Endereco enderecoPrincipal;
 
+    @Override
+    public Object getId() {
+        return null;
+    }
+
+    @Override
+    public void setId(Object id) {
+
+    }
 }

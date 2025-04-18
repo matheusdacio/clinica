@@ -1,4 +1,4 @@
-package engenhariaDeSoftware.demo.paciente;
+package engenhariaDeSoftware.demo.domain.paciente;
 
 import org.springframework.stereotype.Service;
 

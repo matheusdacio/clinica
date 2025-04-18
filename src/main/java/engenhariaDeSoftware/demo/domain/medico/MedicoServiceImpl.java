@@ -1,13 +1,14 @@
-package engenhariaDeSoftware.demo.paciente;
+package engenhariaDeSoftware.demo.domain.medico;
 
+import engenhariaDeSoftware.demo.domain.paciente.Paciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PacienteServiceImpl implements PacienteRepository {
+public class MedicoServiceImpl implements MedicoRepository {
 
     @Autowired
-    public PacienteServiceImpl(PacienteRepository repo, Paciente paciente) {
+    public MedicoServiceImpl(MedicoRepository repo, Paciente paciente) {
         super();
     }
 

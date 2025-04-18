@@ -8,20 +8,11 @@ package engenhariaDeSoftware.demo.controller;
 //import br.com.pessoa_api.pessoa_api.repository.PessoaRepository;
 //import br.com.pessoa_api.pessoa_api.service.PessoaService;
 //import br.com.pessoa_api.pessoa_api.validadores.ValidacaoException;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("pessoas")
-public class PessoaController {
+public class MedicoController {
 //
 //    @Autowired
 //    private PessoaRepository pessoaRepository;

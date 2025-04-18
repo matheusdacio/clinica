@@ -1,7 +1,7 @@
-package engenhariaDeSoftware.demo.pessoa;
+package engenhariaDeSoftware.demo.domain.paciente;
 
-import engenhariaDeSoftware.demo.pessoa.documento.Documento;
-import engenhariaDeSoftware.demo.pessoa.endereco.Endereco;
+import engenhariaDeSoftware.demo.domain.Documento;
+import engenhariaDeSoftware.demo.domain.endereco.Endereco;
 import jakarta.persistence.Table;
 import lombok.*;
 
@@ -10,11 +10,11 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "pessoa")
+@Table(name = "paciente")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Pessoa {
+public class Paciente {
 
     @Id
     @GeneratedValue(generator = "conta", strategy = GenerationType.TABLE)

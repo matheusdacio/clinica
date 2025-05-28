@@ -1,6 +1,5 @@
-package engenhariaDeSoftware.demo.clinica.domain.model;
+package engenhariaDeSoftware.demo.domain.usuario;
 
-import engenhariaDeSoftware.demo.clinica.shared.model.EntityAudit;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "usuarios")
-public abstract class Usuario extends EntityAudit {
+public abstract class Usuario {
     
     @Column(nullable = false)
     private String nome;

@@ -1,28 +1,22 @@
-package engenhariaDeSoftware.demo.clinica.domain;
+package engenhariaDeSoftware.demo.domain.paciente;
 
+import engenhariaDeSoftware.demo.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.Period;
 
-@Entity
-@Table(name = "paciente")
-@PrimaryKeyJoinColumn(name = "usuario_id")
 @Getter
 @Setter
-@SuperBuilder
 @NoArgsConstructor
-public class Paciente extends Usuario implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
-
+@SuperBuilder
+@Entity
+@Table(name = "pacientes")
+public class Pacient extends Usuario {
+    
     @Column(nullable = false, unique = true)
     private String cpf;
     
@@ -35,14 +29,14 @@ public class Paciente extends Usuario implements Serializable {
     @Column(name = "numero_plano")
     private String numeroPlano;
     
-    @Column
+    @Column(name = "convenio")
     private String convenio;
     
-    @Column(name = "observacoes_medicas", columnDefinition = "TEXT")
+    @Column(name = "observacoes_medicas", length = 1000)
     private String observacoesMedicas;
     
-    public Paciente(String nome, String email, String senha, String telefone, 
-                   String cpf, LocalDate dataNascimento, String planoSaude, 
+    public Pacient(String nome, String email, String senha, String telefone,
+                   String cpf, LocalDate dataNascimento, String planoSaude,
                    String numeroPlano, String convenio) {
         super();
         setNome(nome);
@@ -59,6 +53,6 @@ public class Paciente extends Usuario implements Serializable {
     }
     
     public int calcularIdade() {
-        return Period.between(dataNascimento, LocalDate.now()).getYears();
+        return LocalDate.now().getYear() - dataNascimento.getYear();
     }
 } 

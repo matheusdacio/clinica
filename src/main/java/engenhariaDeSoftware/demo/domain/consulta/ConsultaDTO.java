@@ -1,6 +1,7 @@
-package engenhariaDeSoftware.demo.clinica.shared.dto;
+package engenhariaDeSoftware.demo.domain.consulta;
 
-import engenhariaDeSoftware.demo.clinica.domain.model.Consulta;
+import engenhariaDeSoftware.demo.domain.medico.MedicoDTO;
+import engenhariaDeSoftware.demo.domain.paciente.PacienteDTO;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

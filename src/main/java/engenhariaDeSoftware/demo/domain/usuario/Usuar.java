@@ -1,6 +1,5 @@
-package engenhariaDeSoftware.demo.clinica.domain;
+package engenhariaDeSoftware.demo.domain.usuario;
 
-import engenhariaDeSoftware.demo.clinica.shared.domain.EntityAudit;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -17,7 +16,7 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Usuario extends EntityAudit implements Serializable {
+public abstract class Usuar implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -45,7 +44,7 @@ public abstract class Usuario extends EntityAudit implements Serializable {
     @Column(nullable = false)
     private TipoUsuario tipoUsuario;
 
-    protected Usuario() {
+    protected Usuar() {
         super();
     }
     

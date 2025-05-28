@@ -1,4 +1,4 @@
-package engenhariaDeSoftware.demo.domain;
+package engenhariaDeSoftware.demo.domain.documento;
 
 public class Documento {
 

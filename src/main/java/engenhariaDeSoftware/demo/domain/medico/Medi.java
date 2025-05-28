@@ -1,49 +1,42 @@
-package engenhariaDeSoftware.demo.clinica.domain.model;
+package engenhariaDeSoftware.demo.domain.medico;
 
+import engenhariaDeSoftware.demo.domain.usuario.Usuar;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "medico")
+@PrimaryKeyJoinColumn(name = "usuario_id")
 @Getter
 @Setter
-@NoArgsConstructor
 @SuperBuilder
-@Entity
-@Table(name = "medicos")
-public class Medico extends Usuario {
-    
+@NoArgsConstructor
+public class Medi extends Usuar implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Column(nullable = false, unique = true)
     private String crm;
     
-    @Column(name = "especialidade", nullable = false)
+    @Column(nullable = false)
     private String especialidade;
+    
+    @Column(name = "tempo_consulta_minutos", nullable = false)
+    private Integer tempoConsultaMinutos;
     
     @ElementCollection
     @CollectionTable(name = "medico_horarios", joinColumns = @JoinColumn(name = "medico_id"))
     @Column(name = "horario")
     private Set<String> horariosDisponiveis = new HashSet<>();
-    
-    @Column(name = "tempo_consulta_minutos", nullable = false)
-    private Integer tempoConsultaMinutos;
-    
-    public Medico(String nome, String email, String senha, String telefone, 
-                 String crm, String especialidade, Integer tempoConsultaMinutos) {
-        super();
-        setNome(nome);
-        setEmail(email);
-        setSenha(senha);
-        setTelefone(telefone);
-        setTipoUsuario(TipoUsuario.MEDICO);
-        setAtivo(true);
-        this.crm = crm;
-        this.especialidade = especialidade;
-        this.tempoConsultaMinutos = tempoConsultaMinutos;
-    }
     
     public void adicionarHorario(String horario) {
         this.horariosDisponiveis.add(horario);

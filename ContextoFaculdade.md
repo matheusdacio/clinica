@@ -31,7 +31,7 @@ O projeto tem como objetivo modernizar a gestão de consultas médicas em clíni
 6. Se disponível:
    - Registra a consulta no banco de dados;
    - Envia notificação ao médico;
-   - Confirma ao paciente.
+   - Confirma ao pacient.
 
 ### UC2: Cancelar Consulta
 **Atores:** Paciente ou Médico  
@@ -56,7 +56,7 @@ O projeto tem como objetivo modernizar a gestão de consultas médicas em clíni
 1. Médico acessa "Consultas do Dia";
 2. Seleciona a consulta;
 3. Marca como realizada, com opção de adicionar observações;
-4. Sistema registra data/hora, notifica paciente e adiciona ao histórico.
+4. Sistema registra data/hora, notifica pacient e adiciona ao histórico.
 
 ## 🔔 Notificações Automáticas
 Utiliza o padrão **Observer** para:

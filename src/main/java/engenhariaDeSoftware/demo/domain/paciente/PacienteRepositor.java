@@ -1,6 +1,5 @@
-package engenhariaDeSoftware.demo.clinica.domain.repository;
+package engenhariaDeSoftware.demo.domain.paciente;
 
-import engenhariaDeSoftware.demo.clinica.domain.model.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,18 +8,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PacienteRepository extends JpaRepository<Paciente, Long> {
+public interface PacienteRepositor extends JpaRepository<Pacient, Long> {
     
-    Optional<Paciente> findByCpf(String cpf);
+    Optional<Pacient> findByCpf(String cpf);
     
-    Optional<Paciente> findByEmail(String email);
+    Optional<Pacient> findByEmail(String email);
     
     @Query("SELECT p FROM Paciente p WHERE p.ativo = true")
-    List<Paciente> findAllAtivos();
+    List<Pacient> findAllAtivos();
     
     @Query("SELECT p FROM Paciente p WHERE p.ativo = true AND p.convenio = :convenio")
-    List<Paciente> findByConvenio(String convenio);
+    List<Pacient> findByConvenio(String convenio);
     
     @Query("SELECT p FROM Paciente p WHERE p.ativo = true AND p.planoSaude = :planoSaude")
-    List<Paciente> findByPlanoSaude(String planoSaude);
+    List<Pacient> findByPlanoSaude(String planoSaude);
 } 

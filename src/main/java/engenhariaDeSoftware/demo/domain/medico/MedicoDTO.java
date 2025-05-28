@@ -1,6 +1,5 @@
-package engenhariaDeSoftware.demo.clinica.shared.dto;
+package engenhariaDeSoftware.demo.domain.medico;
 
-import engenhariaDeSoftware.demo.clinica.domain.model.Medico;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -60,17 +59,17 @@ public class MedicoDTO {
         private Set<String> horariosDisponiveis;
         private boolean ativo;
         
-        public static Resposta fromEntity(Medico medico) {
+        public static Resposta fromEntity(Medic medic) {
             Resposta dto = new Resposta();
-            dto.setId(medico.getId());
-            dto.setNome(medico.getNome());
-            dto.setEmail(medico.getEmail());
-            dto.setTelefone(medico.getTelefone());
-            dto.setCrm(medico.getCrm());
-            dto.setEspecialidade(medico.getEspecialidade());
-            dto.setTempoConsultaMinutos(medico.getTempoConsultaMinutos());
-            dto.setHorariosDisponiveis(medico.getHorariosDisponiveis());
-            dto.setAtivo(medico.isAtivo());
+            dto.setId(medic.getId());
+            dto.setNome(medic.getNome());
+            dto.setEmail(medic.getEmail());
+            dto.setTelefone(medic.getTelefone());
+            dto.setCrm(medic.getCrm());
+            dto.setEspecialidade(medic.getEspecialidade());
+            dto.setTempoConsultaMinutos(medic.getTempoConsultaMinutos());
+            dto.setHorariosDisponiveis(medic.getHorariosDisponiveis());
+            dto.setAtivo(medic.isAtivo());
             return dto;
         }
     }

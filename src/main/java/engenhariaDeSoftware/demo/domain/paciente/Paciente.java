@@ -1,6 +1,6 @@
 package engenhariaDeSoftware.demo.domain.paciente;
 
-import engenhariaDeSoftware.demo.domain.Documento;
+import engenhariaDeSoftware.demo.domain.documento.Documento;
 import engenhariaDeSoftware.demo.domain.endereco.Endereco;
 import jakarta.persistence.Table;
 import lombok.*;

@@ -1,21 +1,29 @@
-package engenhariaDeSoftware.demo.clinica.domain.model;
+package engenhariaDeSoftware.demo.domain.paciente;
 
+import engenhariaDeSoftware.demo.domain.usuario.Usuar;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 
+@Entity
+@Table(name = "paciente")
+@PrimaryKeyJoinColumn(name = "usuario_id")
 @Getter
 @Setter
-@NoArgsConstructor
 @SuperBuilder
-@Entity
-@Table(name = "pacientes")
-public class Paciente extends Usuario {
-    
+@NoArgsConstructor
+public class Pacien extends Usuar implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Column(nullable = false, unique = true)
     private String cpf;
     
@@ -28,15 +36,15 @@ public class Paciente extends Usuario {
     @Column(name = "numero_plano")
     private String numeroPlano;
     
-    @Column(name = "convenio")
+    @Column
     private String convenio;
     
-    @Column(name = "observacoes_medicas", length = 1000)
+    @Column(name = "observacoes_medicas", columnDefinition = "TEXT")
     private String observacoesMedicas;
     
-    public Paciente(String nome, String email, String senha, String telefone, 
-                   String cpf, LocalDate dataNascimento, String planoSaude, 
-                   String numeroPlano, String convenio) {
+    public Pacien(String nome, String email, String senha, String telefone,
+                  String cpf, LocalDate dataNascimento, String planoSaude,
+                  String numeroPlano, String convenio) {
         super();
         setNome(nome);
         setEmail(email);
@@ -52,6 +60,6 @@ public class Paciente extends Usuario {
     }
     
     public int calcularIdade() {
-        return LocalDate.now().getYear() - dataNascimento.getYear();
+        return Period.between(dataNascimento, LocalDate.now()).getYears();
     }
 } 

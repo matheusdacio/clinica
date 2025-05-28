@@ -1,6 +1,6 @@
-package engenhariaDeSoftware.demo.clinica.domain.service;
+package engenhariaDeSoftware.demo.domain.usuario;
 
-import engenhariaDeSoftware.demo.clinica.domain.model.Consulta;
+import engenhariaDeSoftware.demo.domain.consulta.Consulta;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

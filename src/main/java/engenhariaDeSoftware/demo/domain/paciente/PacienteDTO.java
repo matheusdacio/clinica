@@ -1,6 +1,5 @@
-package engenhariaDeSoftware.demo.clinica.shared.dto;
+package engenhariaDeSoftware.demo.domain.paciente;
 
-import engenhariaDeSoftware.demo.clinica.domain.model.Paciente;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -63,19 +62,19 @@ public class PacienteDTO {
         private String observacoesMedicas;
         private boolean ativo;
         
-        public static Resposta fromEntity(Paciente paciente) {
+        public static Resposta fromEntity(Pacient pacient) {
             Resposta dto = new Resposta();
-            dto.setId(paciente.getId());
-            dto.setNome(paciente.getNome());
-            dto.setEmail(paciente.getEmail());
-            dto.setTelefone(paciente.getTelefone());
-            dto.setCpf(paciente.getCpf());
-            dto.setDataNascimento(paciente.getDataNascimento());
-            dto.setPlanoSaude(paciente.getPlanoSaude());
-            dto.setNumeroPlano(paciente.getNumeroPlano());
-            dto.setConvenio(paciente.getConvenio());
-            dto.setObservacoesMedicas(paciente.getObservacoesMedicas());
-            dto.setAtivo(paciente.isAtivo());
+            dto.setId(pacient.getId());
+            dto.setNome(pacient.getNome());
+            dto.setEmail(pacient.getEmail());
+            dto.setTelefone(pacient.getTelefone());
+            dto.setCpf(pacient.getCpf());
+            dto.setDataNascimento(pacient.getDataNascimento());
+            dto.setPlanoSaude(pacient.getPlanoSaude());
+            dto.setNumeroPlano(pacient.getNumeroPlano());
+            dto.setConvenio(pacient.getConvenio());
+            dto.setObservacoesMedicas(pacient.getObservacoesMedicas());
+            dto.setAtivo(pacient.isAtivo());
             return dto;
         }
     }

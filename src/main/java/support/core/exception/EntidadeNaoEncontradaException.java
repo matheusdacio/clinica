@@ -1,4 +1,4 @@
-package engenhariaDeSoftware.demo.clinica.shared.exception;
+package support.core.exception;
 
 public class EntidadeNaoEncontradaException extends RuntimeException {
     

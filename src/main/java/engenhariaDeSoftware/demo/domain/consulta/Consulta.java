@@ -1,47 +1,47 @@
 package engenhariaDeSoftware.demo.domain.consulta;
 
-import engenhariaDeSoftware.demo.domain.paciente.Pacient;
-import engenhariaDeSoftware.demo.domain.medico.Medic;
+import engenhariaDeSoftware.demo.domain.medico.Medico;
+import engenhariaDeSoftware.demo.domain.paciente.Paciente;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
+import support.core.entity.EntityAudit;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "consulta")
 @Getter
 @Setter
 @NoArgsConstructor
-@SuperBuilder
-@Entity
-@Table(name = "consulta")
-public class Consulta implements Serializable {
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(callSuper = false, of = {"id"})
+public abstract class Consulta extends EntityAudit {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "consulta", strategy = GenerationType.TABLE)
+    @TableGenerator(name = "consulta")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "paciente_id", nullable = false)
-    private Pacient pacient;
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "medico_id", nullable = false)
-    private Medic medic;
+    @JoinColumn(name = "medico_id")
+    private Medico medico;
     
-    @Column(name = "data_hora", nullable = false)
+    @Column(name = "data_hora")
     private LocalDateTime dataHora;
     
-    @Column(name = "observacoes", length = 1000)
+    @Column(name = "observacoes")
     private String observacoes;
     
-    @Column(name = "motivo_cancelamento", length = 500)
+    @Column(name = "motivo_cancelamento")
     private String motivoCancelamento;
     
     @Column(name = "data_confirmacao")
@@ -53,56 +53,17 @@ public class Consulta implements Serializable {
     @Column(name = "data_cancelamento")
     private LocalDateTime dataCancelamento;
 
+    @Column(name = "obs")
+    private String obs;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private StatusConsulta status;
     
-    public Consulta(Pacient pacient, Medic medic, LocalDateTime dataHora) {
-        this.pacient = pacient;
-        this.medic = medic;
+    public Consulta(Paciente pacient, Medico medic, LocalDateTime dataHora) {
+        this.paciente = pacient;
+        this.medico = medic;
         this.dataHora = dataHora;
         this.status = StatusConsulta.AGENDADA;
     }
-    
-    public void confirmar() {
-
-        if (this.status == StatusConsulta.AGENDADA) {
-            this.status = StatusConsulta.CONFIRMADA;
-            this.dataConfirmacao = LocalDateTime.now();
-        } else {
-            throw new IllegalStateException("Apenas consultas agendadas podem ser confirmadas");
-        }
-    }
-    
-    public void realizar() {
-        if (this.status == StatusConsulta.CONFIRMADA) {
-            this.status = StatusConsulta.REALIZADA;
-            this.dataRealizacao = LocalDateTime.now();
-        } else {
-            throw new IllegalStateException("Apenas consultas confirmadas podem ser realizadas");
-        }
-    }
-    
-    public void cancelar(String motivo) {
-        if (this.status != StatusConsulta.REALIZADA) {
-            this.status = StatusConsulta.CANCELADA;
-            this.motivoCancelamento = motivo;
-            this.dataCancelamento = LocalDateTime.now();
-        } else {
-            throw new IllegalStateException("Consultas já realizadas não podem ser canceladas");
-        }
-    }
-    
-    public boolean podeSerCancelada() {
-        return this.status != StatusConsulta.REALIZADA && 
-               this.status != StatusConsulta.CANCELADA;
-    }
-    
-    public boolean podeSerConfirmada() {
-        return this.status == StatusConsulta.AGENDADA;
-    }
-    
-    public boolean podeSerRealizada() {
-        return this.status == StatusConsulta.CONFIRMADA;
-    }
-} 
+}

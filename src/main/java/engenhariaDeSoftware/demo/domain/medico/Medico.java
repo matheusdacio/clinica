@@ -1,24 +1,41 @@
 package engenhariaDeSoftware.demo.domain.medico;
 
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import support.core.entity.EntityAudit;
 
-import javax.persistence.Entity;
+import java.io.Serial;
 
 @Entity
+@Table(name = "medico")
 @Getter
 @Setter
-@Table(name = "medico")
-@Builder
-public class Medico extends EntityAudit {
-    @Override
-    public Object getId() {
-        return null;
-    }
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false,of = {"id"})
+public abstract class Medico extends EntityAudit {
 
-    @Override
-    public void setId(Object id) {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    }
+    @Id
+    @GeneratedValue(generator = "medico", strategy = GenerationType.TABLE)
+    @TableGenerator(name = "medico")
+    private Long id;
+
+    @Column(name = "nome")
+    private String nome;
+
+    @Column(name = "crm")
+    private String crm;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "especialidade")
+    private Especialidade especialidade;
+
+    @Column(name = "telefone")
+    private String telefone;
+
+    @Column(name = "email")
+    private String email;
 }

@@ -1,45 +1,42 @@
 package engenhariaDeSoftware.demo.domain.paciente;
 
-import engenhariaDeSoftware.demo.domain.documento.Documento;
-import engenhariaDeSoftware.demo.domain.endereco.Endereco;
 import jakarta.persistence.Table;
 import lombok.*;
 import support.core.entity.EntityAudit;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.time.LocalDate;
 
 @Entity
+@Table(name = "paciente")
 @Getter
 @Setter
-@Table(name = "paciente")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Paciente extends EntityAudit {
+@EqualsAndHashCode(callSuper = false, of = {"id"})
+public abstract class Paciente extends EntityAudit {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "conta", strategy = GenerationType.TABLE)
-    @TableGenerator(name= "conta")
+    @GeneratedValue(generator = "paciente", strategy = GenerationType.TABLE)
+    @TableGenerator(name = "paciente")
     private Long id;
 
     @Column(name = "nome")
     private String nome;
 
-    @JoinColumn(name = "documento_principal_id")
-    @OneToOne
-    private Documento documentoPrincipal;
+    @Column(name = "cpf")
+    private String cpf;
 
-    @JoinColumn(name = "endereco_principal_id")
-    @OneToOne
-    private Endereco enderecoPrincipal;
+    @Column(name = "data_nascimento")
+    private LocalDate dataNascimento;
 
-    @Override
-    public Object getId() {
-        return null;
-    }
+    @Column(name = "numero_plano")
+    private String numeroPlano;
 
-    @Override
-    public void setId(Object id) {
-
-    }
 }
+

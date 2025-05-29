@@ -1,21 +1,15 @@
 package support.core.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-@SuperBuilder
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class EntityAudit extends EntityAuditCreated implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,16 +17,14 @@ public abstract class EntityAudit extends EntityAuditCreated implements Serializ
     @Column(name = "modified_date")
     @LastModifiedDate
     private OffsetDateTime modifiedDate;
-
     @Column(name = "modified_by")
     @LastModifiedBy
     private String modifiedBy;
-
     @Version
     private long version;
 
     public OffsetDateTime getModifiedDate() {
-        return modifiedDate;
+        return this.modifiedDate;
     }
 
     @Access(AccessType.PROPERTY)
@@ -41,7 +33,7 @@ public abstract class EntityAudit extends EntityAuditCreated implements Serializ
     }
 
     public String getModifiedBy() {
-        return modifiedBy;
+        return this.modifiedBy;
     }
 
     @Access(AccessType.PROPERTY)
@@ -50,10 +42,56 @@ public abstract class EntityAudit extends EntityAuditCreated implements Serializ
     }
 
     public long getVersion() {
-        return version;
+        return this.version;
     }
 
     public void setVersion(long version) {
         this.version = version;
+    }
+
+    protected EntityAudit(final EntityAuditBuilder<?, ?> b) {
+        super(b);
+        this.modifiedDate = b.modifiedDate;
+        this.modifiedBy = b.modifiedBy;
+        this.version = b.version;
+    }
+
+    public EntityAudit() {
+    }
+
+    public EntityAudit(final OffsetDateTime modifiedDate, final String modifiedBy, final long version) {
+        this.modifiedDate = modifiedDate;
+        this.modifiedBy = modifiedBy;
+        this.version = version;
+    }
+
+    public abstract static class EntityAuditBuilder<C extends EntityAudit, B extends EntityAuditBuilder<C, B>> extends EntityAuditCreated.EntityAuditCreatedBuilder<C, B> {
+        private OffsetDateTime modifiedDate;
+        private String modifiedBy;
+        private long version;
+
+        protected abstract B self();
+
+        public abstract C build();
+
+        public B modifiedDate(final OffsetDateTime modifiedDate) {
+            this.modifiedDate = modifiedDate;
+            return (B)this.self();
+        }
+
+        public B modifiedBy(final String modifiedBy) {
+            this.modifiedBy = modifiedBy;
+            return (B)this.self();
+        }
+
+        public B version(final long version) {
+            this.version = version;
+            return (B)this.self();
+        }
+
+        public String toString() {
+            String var10000 = super.toString();
+            return "EntityAudit.EntityAuditBuilder(super=" + var10000 + ", modifiedDate=" + this.modifiedDate + ", modifiedBy=" + this.modifiedBy + ", version=" + this.version + ")";
+        }
     }
 } 

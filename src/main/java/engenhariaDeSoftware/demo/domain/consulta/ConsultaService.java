@@ -1,9 +1,14 @@
 package engenhariaDeSoftware.demo.domain.consulta;
 
-import engenhariaDeSoftware.demo.domain.paciente.Paciente;
-import org.springframework.stereotype.Service;
+import support.core.service.BaseService;
 
-@Service
-public interface ConsultaService {
-    Paciente salvar(Paciente paciente);
-}
+import java.util.List;
+
+public interface ConsultaService extends BaseService<Consulta, Long> {
+
+    List<Consulta> listarConsultasPorMedicoId(Long medicoId);
+    List<Consulta> listarConsultasPorPacienteId(Long pacienteId);
+    List<Consulta> listarProximasConsultasPorMedicoId(Long medicoId);
+    List<Consulta> listarProximasConsultasPorPacienteId(Long pacienteId);
+
+} 

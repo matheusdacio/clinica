@@ -1,8 +1,7 @@
 package engenhariaDeSoftware.demo.domain.paciente;
 
-import org.springframework.stereotype.Service;
+import support.core.service.BaseService;
 
-@Service
-public interface PacienteService {
+public interface PacienteService extends BaseService<Paciente, Long> {
     Paciente salvar(Paciente paciente);
 }

@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 
 
 @MappedSuperclass
-@EntityListeners({AuditingEntityListener.class, AuditoriaEventListener.class})
+@EntityListeners({AuditingEntityListener.class})
 public abstract class EntityAudit extends EntityAuditCreated implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(

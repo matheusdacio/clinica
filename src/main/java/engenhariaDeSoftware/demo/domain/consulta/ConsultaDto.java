@@ -2,11 +2,17 @@ package engenhariaDeSoftware.demo.domain.consulta;
 
 import engenhariaDeSoftware.demo.domain.medico.MedicoDto;
 import engenhariaDeSoftware.demo.domain.paciente.PacienteDto;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
 public class ConsultaDto implements Serializable {
 
     @Serial

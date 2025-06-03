@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false, of = {"id"})
-public abstract class Consulta extends EntityAudit {
+public class Consulta extends EntityAudit {
 
     @Serial
     private static final long serialVersionUID = 1L;

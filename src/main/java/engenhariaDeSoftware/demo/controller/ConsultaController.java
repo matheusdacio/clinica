@@ -1,13 +1,7 @@
 package engenhariaDeSoftware.demo.controller;
 
-import engenhariaDeSoftware.demo.domain.consulta.Consulta;
-import engenhariaDeSoftware.demo.domain.consulta.ConsultaService;
 import engenhariaDeSoftware.demo.domain.consulta.ConsultaDto;
-import support.core.exception.ConsultaConflitanteException;
-import support.core.exception.EntidadeNaoEncontradaException;
-import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import engenhariaDeSoftware.demo.domain.consulta.ConsultaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,98 +12,46 @@ import java.util.List;
 public class ConsultaController {
     
     private final ConsultaService consultaService;
+    private final ConsultaMapper consultaMapper;
 
-    public ConsultaController(ConsultaService consultaService) {
+    public ConsultaController(ConsultaService consultaService, ConsultaMapper consultaMapper) {
         this.consultaService = consultaService;
+        this.consultaMapper = consultaMapper;
     }
 
-    @PostMapping
-    public ResponseEntity<ConsultaDto.Resposta> agendar(@RequestBody @Valid ConsultaDto.Criar dto) {
-        try {
-            Consulta consulta = consultaService.agendar(dto);
-            return ResponseEntity.ok(ConsultaDto.Resposta.fromEntity(consulta));
-        } catch (ConsultaConflitanteException e) {
-            return ResponseEntity.badRequest().build();
-        }
+    @PostMapping(value = "/{id}/agendar")
+    public ConsultaDto agendar(@PathVariable Long id, ConsultaDto consultaDto) {
+        return consultaService.salvar(consultaMapper.toConsultaEntity(consultaDto));
+
     }
     
     @PostMapping("/{id}/confirmar")
-    public ResponseEntity<ConsultaDto.Resposta> confirmar(@PathVariable Long id) {
-        try {
-            Consulta consulta = consultaService.confirmar(id);
-            return ResponseEntity.ok(ConsultaDto.Resposta.fromEntity(consulta));
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    
-    @PostMapping("/{id}/realizar")
-    public ResponseEntity<ConsultaDto.Resposta> realizar(@PathVariable Long id) {
-        try {
-            Consulta consulta = consultaService.realizar(id);
-            return ResponseEntity.ok(ConsultaDto.Resposta.fromEntity(consulta));
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ConsultaDto> confirmar(@PathVariable Long id) {
+
     }
     
     @PostMapping("/{id}/cancelar")
-    public ResponseEntity<ConsultaDto.Resposta> cancelar(@PathVariable Long id,
-                                                         @RequestBody @Valid ConsultaDto.Cancelar dto) {
-        try {
-            Consulta consulta = consultaService.cancelar(id, dto);
-            return ResponseEntity.ok(ConsultaDto.Resposta.fromEntity(consulta));
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ConsultaDto> cancelar(@PathVariable Long id) {
     }
     
-    @GetMapping("/medico/{medicoId}")
-    public ResponseEntity<Page<ConsultaDto.Resposta>> listarConsultasMedico(
-            @PathVariable Long medicoId,
-            @RequestParam(required = false) {
-        try {
-            Page<Consulta> consultas = consultaService.listarConsultasMedico(medicoId);
-            return ResponseEntity.ok(consultas.map(ConsultaDto.Resposta::fromEntity));
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping(value = "/medico/{medicoId}")
+    public List<ConsultaDto> listarConsultasMedico(@PathVariable Long medicoId) {
+        return consultaService.listarConsultasPorMedicoId(medicoId).stream().map(consultaMapper::toConsultaDto).toList();
+
     }
     
-    @GetMapping("/paciente/{pacienteId}")
-    public ResponseEntity<Page<ConsultaDto.Resposta>> listarConsultasPaciente(
-            @PathVariable Long pacienteId,
-            @RequestParam(required = false)
-            Pageable pageable) {
-        try {
-            Page<Consulta> consultas = consultaService.listarConsultasPaciente(pacienteId);
-            return ResponseEntity.ok(consultas.map(ConsultaDto.Resposta::fromEntity));
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping(value = "/paciente/{pacienteId}")
+    public List<ConsultaDto> listarConsultasPaciente(@PathVariable Long pacienteId) {
+        return consultaService.listarConsultasPorPacienteId(pacienteId).stream().map(consultaMapper::toConsultaDto).toList();
     }
     
-    @GetMapping("/medico/{medicoId}/proximas")
-    public ResponseEntity<List<ConsultaDto.Resposta>> listarProximasConsultasMedico(@PathVariable Long medicoId) {
-        try {
-            List<Consulta> consultas = consultaService.listarProximasConsultasMedico(medicoId);
-            return ResponseEntity.ok(consultas.stream()
-                    .map(ConsultaDto.Resposta::fromEntity)
-                    .toList());
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping(value = "/medico/{medicoId}/proximas")
+    public List<ConsultaDto> listarProximasConsultasMedico(@PathVariable Long medicoId) {
+        return consultaService.listarProximasConsultasPorMedicoId(medicoId).stream().map(consultaMapper::toConsultaDto).toList();
     }
     
-    @GetMapping("/paciente/{pacienteId}/proximas")
-    public ResponseEntity<List<ConsultaDto.Resposta>> listarProximasConsultasPaciente(@PathVariable Long pacienteId) {
-        try {
-            List<Consulta> consultas = consultaService.listarProximasConsultasPaciente(pacienteId);
-            return ResponseEntity.ok(consultas.stream()
-                    .map(ConsultaDto.Resposta::fromEntity)
-                    .toList());
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping(value = "/paciente/{pacienteId}/proximas")
+    public List<ConsultaDto> listarProximasConsultasPaciente(@PathVariable Long pacienteId) {
+        return consultaService.listarProximasConsultasPorPacienteId(pacienteId).stream().map(consultaMapper::toConsultaDto).toList();
     }
-} 
+}

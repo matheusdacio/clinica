@@ -1,23 +1,31 @@
 package support.core.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Version;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
+
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({AuditingEntityListener.class, AuditoriaEventListener.class})
 public abstract class EntityAudit extends EntityAuditCreated implements Serializable {
-
     private static final long serialVersionUID = 1L;
-
-    @Column(name = "modified_date")
+    @Column(
+            name = "modified_date"
+    )
     @LastModifiedDate
     private OffsetDateTime modifiedDate;
-    @Column(name = "modified_by")
+    @Column(
+            name = "modified_by"
+    )
     @LastModifiedBy
     private String modifiedBy;
     @Version
@@ -94,4 +102,4 @@ public abstract class EntityAudit extends EntityAuditCreated implements Serializ
             return "EntityAudit.EntityAuditBuilder(super=" + var10000 + ", modifiedDate=" + this.modifiedDate + ", modifiedBy=" + this.modifiedBy + ", version=" + this.version + ")";
         }
     }
-} 
+}

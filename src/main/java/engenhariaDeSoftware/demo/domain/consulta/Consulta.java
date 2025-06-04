@@ -66,4 +66,14 @@ public class Consulta extends EntityAudit {
         this.dataHora = dataHora;
         this.status = StatusConsulta.AGENDADA;
     }
+
+    @Override
+    public Object getId() {
+        return null;
+    }
+
+    @Override
+    public void setId(Object id) {
+
+    }
 }

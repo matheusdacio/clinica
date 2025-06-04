@@ -1,67 +1,70 @@
 package engenhariaDeSoftware.demo.controller;
 
-//import br.com.pessoa_api.pessoa_api.dto.DadosAtualizacaoPessoaDto;
-//import br.com.pessoa_api.pessoa_api.dto.DadosCadastroPessoaDto;
-//import br.com.pessoa_api.pessoa_api.dto.DadosDetalhamentoPessoaDto;
-//import br.com.pessoa_api.pessoa_api.dto.DadosListagemPessoaDto;
-//import br.com.pessoa_api.pessoa_api.model.Pessoa;
-//import br.com.pessoa_api.pessoa_api.repository.PessoaRepository;
-//import br.com.pessoa_api.pessoa_api.service.PessoaService;
-//import br.com.pessoa_api.pessoa_api.validadores.ValidacaoException;
+import engenhariaDeSoftware.demo.domain.medico.Medico;
+import engenhariaDeSoftware.demo.domain.medico.MedicoService;
+import engenhariaDeSoftware.demo.domain.medico.MedicoDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("pessoas")
+@RequestMapping("/medicos")
 public class MedicoController {
-//
-//    @Autowired
-//    private PessoaRepository pessoaRepository;
-//
-//    @Autowired
-//    private PessoaService pessoaService;
-//
-//    @PostMapping
-//    @Transactional
-//    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPessoaDto dto) {
-//        try {
-//            this.pessoaService.validarCadastro(dto);
-//            return ResponseEntity.ok("Pessoa Cadastrada com Sucesso!!");
-//        } catch (ValidacaoException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
-//
-//    @GetMapping
-//    @Transactional
-//    public ResponseEntity<Page<DadosListagemPessoaDto>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-//        var page = pessoaRepository.findAll(paginacao).map(DadosListagemPessoaDto::new);
-//        return ResponseEntity.ok(page);
-//    }
-//
-//    @PutMapping
-//    @Transactional
-//    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoPessoaDto dto) {
-//        var pessoa = pessoaRepository.getReferenceById(dto.idPessoa());
-//        pessoa.atualizarPessoa(dto);
-//        return ResponseEntity.ok(new DadosDetalhamentoPessoaDto(pessoa));
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
-//        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
-//        return pessoa.map(ResponseEntity::ok)
-//                .orElseGet(() -> ResponseEntity.notFound().build());
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    @Transactional
-//    public ResponseEntity<Void> excluir(@PathVariable Long id) {
-//        if (pessoaService.findByExist(id)) {
-//            pessoaService.deletar(id);
-//            return ResponseEntity.noContent().build();
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
 
+    @Autowired
+    private MedicoService medicoService;
+
+    @PostMapping
+    public ResponseEntity<MedicoDto> cadastrar(@RequestBody MedicoDto medicoDto) {
+        Medico medico = medicoService.salvar(medicoDto.toEntity());
+        return ResponseEntity.ok(new MedicoDto(medico));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<MedicoDto>> listar(Pageable paginacao) {
+        Page<Medico> medicos = medicoService.listarPagina(paginacao);
+        return ResponseEntity.ok(medicos.map(MedicoDto::new));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MedicoDto> buscarPorId(@PathVariable Long id) {
+        Medico medico = medicoService.buscarPorIdOrElseThrow(id);
+        return ResponseEntity.ok(new MedicoDto(medico));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MedicoDto> atualizar(@PathVariable Long id, @RequestBody MedicoDto medicoDto) {
+        Medico medico = medicoService.buscarPorIdOrElseThrow(id);
+        medicoDto.atualizar(medico);
+        medico = medicoService.salvar(medico);
+        return ResponseEntity.ok(new MedicoDto(medico));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        if (medicoService.existe(id)) {
+            medicoService.excluir(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/especialidade/{especialidade}")
+    public ResponseEntity<Page<MedicoDto>> buscarPorEspecialidade(
+            @PathVariable String especialidade,
+            Pageable paginacao) {
+        Page<Medico> medicos = medicoService.buscarPorEspecialidade(especialidade, paginacao);
+        return ResponseEntity.ok(medicos.map(MedicoDto::new));
+    }
+
+    @GetMapping("/disponivel")
+    public ResponseEntity<Page<MedicoDto>> listarMedicosDisponiveis(
+            @RequestParam String data,
+            @RequestParam String hora,
+            Pageable paginacao) {
+        Page<Medico> medicos = medicoService.listarMedicosDisponiveis(data, hora, paginacao);
+        return ResponseEntity.ok(medicos.map(MedicoDto::new));
+    }
 }
